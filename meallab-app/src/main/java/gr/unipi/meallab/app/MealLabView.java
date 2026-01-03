@@ -142,7 +142,7 @@ public class MealLabView {
      */
     private Parent buildTopBar() {
         ingredientField.setPromptText("Ingredient (e.g. chicken)");
-        nameField.setPromptText("Name (partial ok)");
+        nameField.setPromptText("Name (e.g. Mousaka)");
         idField.setPromptText("Meal id");
 
         HBox row1 = new HBox(8, ingredientField, searchIngredientBtn, nameField, searchNameBtn);
