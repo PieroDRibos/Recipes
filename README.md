@@ -60,26 +60,26 @@ java -jar meallab-app/target/meallab-app-1.0.0-shaded.jar
 
 ```
 meallab/
-├── meallab-api/          # API client module
+├── meallab-api/ # API client module
 │   └── src/
 │       ├── main/java/
 │       │   └── gr/unipi/meallab/api/
-│       │       ├── client/      # MealLabClient
-│       │       ├── model/       # POJOs (MealDetails, etc.)
-│       │       └── exception/   # MealLabException
+│       │       ├── client/ # MealLabClient
+│       │       ├── model/ # POJOs (MealDetails, etc.)
+│       │       └── exception/ # MealLabException
 │       └── test/java/
-├── meallab-app/          # Application module
+├── meallab-app/ # Application module
 │   └── src/
 │       ├── main/java/
 │       │   └── gr/unipi/meallab/app/
-│       │       ├── Main.java         # CLI entry point
-│       │       ├── MainFx.java       # JavaFX entry point
-│       │       ├── MealLabView.java  # JavaFX UI
+│       │       ├── Main.java # CLI entry point
+│       │       ├── MainFx.java # JavaFX entry point
+│       │       ├── MealLabView.java # JavaFX UI
 │       │       ├── MealLabService.java
-│       │       ├── MealStorage.java  # Persistence layer
+│       │       ├── MealStorage.java # Persistence layer
 │       │       └── MealRow.java
 │       └── test/java/
-└── pom.xml               # Parent POM
+└── pom.xml # Parent POM
 ```
 
 ## Dependencies
