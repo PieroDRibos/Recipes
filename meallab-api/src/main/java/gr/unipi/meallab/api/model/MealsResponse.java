@@ -21,6 +21,7 @@ public class MealsResponse<T> {
      * @return list of meals, or null if empty response
      */
     public List<T> getMeals() {
+        System.out.println("MealsResponse.getMeals() called");
         return meals;
     }
 }

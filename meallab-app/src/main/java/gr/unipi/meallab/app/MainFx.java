@@ -48,7 +48,7 @@ public class MainFx extends Application {
      * Main method to launch the JavaFX application.
      * Automatically calls start() method on the JavaFX thread.
      * 
-     * @param args command-line arguments (unused)
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         launch(args);
