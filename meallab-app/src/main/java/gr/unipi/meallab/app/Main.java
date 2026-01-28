@@ -112,7 +112,7 @@ public class Main {
     }
 
     private static void handleSearchByName(Scanner sc) {
-        System.out.print("Name (partial ok): ");
+        System.out.print("Name: ");
         String name = sc.nextLine().trim();
 
         List<MealDetails> meals = client.searchByName(name);
@@ -158,7 +158,7 @@ public class Main {
 
         printMealDetails(meal);
 
-        // Optional UX helper
+        // UX helper
         System.out.println();
         System.out.print("Add this meal to (f)avorites, (c)ooked, or (n)o? ");
         String ans = sc.nextLine().trim().toLowerCase();
@@ -315,12 +315,17 @@ public class Main {
         }
 
         System.out.println(
-                "Removed from: "
-                        + (removedFav ? "Favorites " : "")
-                        + (removedCooked ? "Cooked " : "")
+            "Removed from: "
+            + (removedFav ? "Favorites " : "")
+            + (removedCooked ? "Cooked " : "")
         );
     }
 
+    /**
+     * Print full meal details to console.
+     * 
+     * @param meal the meal to print
+     */
     private static void printMealDetails(MealDetails meal) {
         System.out.println("=== Meal Details ===");
         System.out.println("Name: " + safe(meal.getStrMeal()));
@@ -360,6 +365,12 @@ public class Main {
     // JSON persistence helpers
     // ------------------------------
 
+    /** 
+     * Load favorites and cooked lists from disk if the files exist.
+     * Handles any exceptions gracefully without crashing the app.
+     * 
+     * @return void
+    */
     private static void loadLists() {
         try {
             // Ensure data directory exists
@@ -393,6 +404,13 @@ public class Main {
         }
     }
 
+    /**
+     * Sanitize loaded map from disk by normalizing keys and values.
+     * Skips entries with blank keys.
+     * 
+     * @param loaded the raw loaded map
+     * @return sanitized map
+     */
     private static Map<String, String> sanitizeLoadedMap(Map<String, String> loaded) {
         // Normalize keys and values, skip invalid entries
         Map<String, String> sanitized = new LinkedHashMap<>();
@@ -407,14 +425,31 @@ public class Main {
         return sanitized;
     }
 
+    /**
+     * Save favorites list to disk as JSON.
+     * 
+     * @return void
+    */
     private static void saveFavorites() {
         saveMap(FAVORITES_FILE, favorites);
     }
 
+    /**
+     * Save cooked list to disk as JSON.
+     * 
+     * @return void
+    */
     private static void saveCooked() {
         saveMap(COOKED_FILE, cooked);
     }
 
+    /**
+     * Save a map to a specified file as JSON.
+     * Handles exceptions gracefully without crashing the app.
+     * 
+     * @param file the target file path
+     * @param map the map to save
+     */
     private static void saveMap(Path file, Map<String, String> map) {
         try {
             // Ensure data directory exists
@@ -424,10 +459,10 @@ public class Main {
 
             String json = gson.toJson(map);
             Files.writeString(
-                    file,
-                    json,
-                    StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING
+                file,
+                json,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING
             );
         } catch (Exception e) {
             // Do not crash the app if saving fails
@@ -439,11 +474,25 @@ public class Main {
     // Small helpers (input + validation)
     // ------------------------------
 
+    /**
+     * Normalize meal id input by trimming whitespace.
+     * Handles null input gracefully.
+     * 
+     * @param input raw input string
+     * @return trimmed id string
+     */
     private static String normalizeId(String input) {
         // Normalize ids to avoid issues with accidental spaces/copy-paste artifacts
         return input == null ? "" : input.trim();
     }
     
+    /**
+     * Format the instructions string into numbered steps.
+     * Cleans up control characters and normalizes line endings.
+     * 
+     * @param s raw instructions string from API
+     * @return formatted instructions with numbered steps
+     */
     private static String formatInstructions(String s) {
         if (s == null) {
             return "";
@@ -459,9 +508,10 @@ public class Main {
 
         // Replace the API step-marker symbols with a newline delimiter
         out = out.replace("▢", "")
-                 .replace("□", "")
-                 .replace("▪", "")
-                 .replace("•", "");
+            .replace("□", "")
+            .replace("▪", "")
+            .replace("•", "")
+        ;
 
         // Split into steps by blank lines OR by our inserted delimiters
         // Many meals come as paragraphs separated by blank lines.
@@ -483,10 +533,22 @@ public class Main {
         return sb.toString().trim();
     }
 
+    /**
+     * Basic validation of MealDetails object.
+     * 
+     * @param meal the meal to validate
+     * @return true if valid, false otherwise
+     */
     private static boolean isValidMeal(MealDetails meal) {
         return meal != null && meal.getIdMeal() != null && !meal.getIdMeal().trim().isBlank();
     }
 
+    /**
+     * Safe null-to-empty conversion.
+     * 
+     * @param s the input string
+     * @return empty string if input is null, else the input itself
+     */
     private static String safe(String s) {
         return s == null ? "" : s;
     }

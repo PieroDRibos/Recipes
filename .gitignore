@@ -5,6 +5,7 @@
 .classpath
 .project
 .settings/
+
 # Line endings (enforce LF across all platforms)
 * text=auto
 *.java text eol=lf

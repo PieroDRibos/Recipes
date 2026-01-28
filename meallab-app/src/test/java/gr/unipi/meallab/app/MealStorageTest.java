@@ -18,7 +18,7 @@ public class MealStorageTest {
     @AfterEach
     void cleanup() throws Exception {
         if (Files.exists(testDir)) {
-            // delete children first, then dir
+            // Delete children first, then dir
             Files.walk(testDir)
                     .sorted((a, b) -> b.compareTo(a))
                     .forEach(p -> {

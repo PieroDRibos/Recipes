@@ -97,12 +97,23 @@ public class MealLabView {
     // Current selected details
     private MealDetails currentMeal;
 
+    /**
+     * Constructor.
+     * Initializes UI components, loads data from disk, and refreshes tables.
+     * 
+     * @return void
+     */
     public MealLabView() {
         loadListsFromDisk();
         buildUi();
         refreshListTables();
     }
 
+    /**
+     * Get the root UI component for embedding in a Scene.
+     * 
+     * @return the root Parent node
+     */
     public Parent getRoot() {
         return root;
     }
@@ -120,6 +131,8 @@ public class MealLabView {
     /**
      * Initialize and layout the entire UI.
      * Called once from constructor.
+     * 
+     * @return void
      */
     private void buildUi() {
         root.setPadding(new Insets(10));
@@ -139,6 +152,8 @@ public class MealLabView {
      * - Name search field + button
      * - ID lookup field + button
      * - Random meal button
+     * 
+     * @return the constructed top bar Parent
      */
     private Parent buildTopBar() {
         ingredientField.setPromptText("Ingredient (e.g. chicken)");
@@ -161,6 +176,8 @@ public class MealLabView {
      * Build the center panel with three tables + fixed action bar.
      * 
      * The action bar stays fixed at bottom, even when scrolling tables above.
+     * 
+     * @return the constructed center Parent
      */
     private Parent buildCenter() {
         searchTable = buildMealsTable(searchRows, row -> loadDetailsById(row.getId()));
@@ -211,6 +228,8 @@ public class MealLabView {
      * Enable/disable logic:
      * - "Move Fav→Cooked" disabled until row selected in favoritesTable
      * - "Remove" disabled until row selected in either table
+     * 
+     * @return the constructed actions bar Parent
      */
     private Parent buildActionsBar() {
         addToFavBtn = new Button("Add to Favorites");
@@ -256,6 +275,8 @@ public class MealLabView {
      * - Uses search/lookup/random functions
      * 
      * Displays "No meal selected" until a meal is loaded.
+     * 
+     * @return the constructed details pane Parent
      */
     private Parent buildDetailsPane() {
         titleLabel.setFont(Font.font(16));
@@ -306,6 +327,9 @@ public class MealLabView {
 
     /**
      * Configure styling for the details panel.
+     * Sets metaLabel text color to a lighter shade.
+     * 
+     * @return void
      */
     private void configureDetailsPane() {
         metaLabel.setStyle("-fx-text-fill: #555;");
@@ -323,7 +347,7 @@ public class MealLabView {
     private TableView<MealRow> buildMealsTable(ObservableList<MealRow> data, java.util.function.Consumer<MealRow> onPick) {
         TableView<MealRow> table = new TableView<>(data);
 
-        // Modern JavaFX resize policy (no deprecation)
+        // Modern JavaFX resize policy
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
         TableColumn<MealRow, String> idCol = new TableColumn<>("ID");
@@ -333,7 +357,7 @@ public class MealLabView {
         TableColumn<MealRow, String> nameCol = new TableColumn<>("Meal");
         nameCol.setCellValueFactory(c -> c.getValue().nameProperty());
 
-        // table.getColumns().setAll(idCol, nameCol);
+        // table.getColumns().setAll(idCol, nameCol); // ! Old implementation
         // Avoid varargs generic warning: use add()
         table.getColumns().add(idCol);
         table.getColumns().add(nameCol);
@@ -363,6 +387,8 @@ public class MealLabView {
     /**
      * Wire all button and field actions to event handlers.
      * Supports both button clicks and Enter key shortcuts.
+     * 
+     * @return void
      */
     private void wireActions() {
         searchIngredientBtn.setOnAction(e -> runSearchByIngredient());
@@ -380,6 +406,8 @@ public class MealLabView {
      * Search for meals by ingredient (async).
      * Validates input, then fetches from API in background thread.
      * Updates searchRows on UI thread when complete.
+     * 
+     * @return void
      */
     private void runSearchByIngredient() {
         String ingredient = ingredientField.getText().trim();
@@ -403,6 +431,8 @@ public class MealLabView {
      * Search for meals by name (async).
      * Validates input, then fetches from API in background thread.
      * Updates searchRows on UI thread when complete.
+     * 
+     * @return void
      */
     private void runSearchByName() {
         String name = nameField.getText().trim();
@@ -425,6 +455,8 @@ public class MealLabView {
     /**
      * Look up a meal by ID (async).
      * Delegates to loadDetailsById which fetches and displays in details panel.
+     * 
+     * @return void
      */
     private void runLookupById() {
         String id = normalizeId(idField.getText());
@@ -438,6 +470,8 @@ public class MealLabView {
     /**
      * Fetch and display a random meal (async).
      * Uses runInBackground to avoid blocking UI.
+     * 
+     * @return void
      */
     private void runRandom() {
         runInBackground(() -> {
@@ -484,6 +518,8 @@ public class MealLabView {
      * 
      * Validates currentMeal is set, checks for duplicates, saves to disk.
      * Shows confirmation or error message.
+     * 
+     * @return void
      */
     private void addCurrentToFavorites() {
         if (!isValidMeal(currentMeal)) {
@@ -509,6 +545,8 @@ public class MealLabView {
      * 
      * Validates currentMeal is set, checks for duplicates, saves to disk.
      * Shows confirmation or error message.
+     * 
+     * @return void
      */
     private void addCurrentToCooked() {
         if (!isValidMeal(currentMeal)) {
@@ -534,6 +572,8 @@ public class MealLabView {
      * 
      * Validates selection in favoritesTable, prevents duplicates in Cooked,
      * saves both lists to disk after move.
+     * 
+     * @return void
      */
     private void moveSelectedFavoriteToCooked() {
         MealRow selected = favoritesTable.getSelectionModel().getSelectedItem();
@@ -574,6 +614,8 @@ public class MealLabView {
      * Remove a selected meal from either Favorites or Cooked list.
      * 
      * Can remove from one or both lists (if rows are selected in both).
+     * 
+     * @return void
      */
     private void removeSelectedFromLists() {
         MealRow favSel = favoritesTable.getSelectionModel().getSelectedItem();
@@ -605,6 +647,8 @@ public class MealLabView {
     /**
      * Refresh the UI tables (favorites and cooked) from in-memory maps.
      * Call this after any change to favorites/cooked maps.
+     * 
+     * @return void
      */
     private void refreshListTables() {
         favoriteRows.clear();
@@ -631,6 +675,7 @@ public class MealLabView {
      * - Clears all fields to "no meal selected" state
      * 
      * @param meal the meal to display (may be null or invalid)
+     * @return void
      */
     private void setDetails(MealDetails meal) {
         currentMeal = meal;
@@ -647,8 +692,9 @@ public class MealLabView {
         titleLabel.setText(safe(meal.getStrMeal()));
 
         String meta = "ID: " + safe(meal.getIdMeal())
-                + " | " + safe(meal.getStrCategory())
-                + " | " + safe(meal.getStrArea());
+            + " | " + safe(meal.getStrCategory())
+            + " | " + safe(meal.getStrArea())
+        ;
         metaLabel.setText(meta);
 
         // Thumbnail
@@ -696,6 +742,8 @@ public class MealLabView {
     /**
      * Load saved favorites and cooked lists from disk on startup.
      * If files don't exist or are corrupted, starts with empty lists.
+     * 
+     * @return void
      */
     private void loadListsFromDisk() {
         favorites.clear();
@@ -714,6 +762,7 @@ public class MealLabView {
      * If the task throws an exception, shows error alert on UI thread.
      * 
      * @param job the runnable task to execute
+     * @return void
      */
     private void runInBackground(Runnable job) {
         Thread t = new Thread(() -> {
@@ -731,6 +780,7 @@ public class MealLabView {
      * Show an information dialog to the user.
      * 
      * @param msg the message to display
+     * @return void
      */
     private void alert(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);

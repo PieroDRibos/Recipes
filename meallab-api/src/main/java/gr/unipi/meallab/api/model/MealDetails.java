@@ -92,12 +92,24 @@ public class MealDetails {
     private String strMeasure20;
 
     // Basic getters
-    public String getIdMeal() { return idMeal; }
-    public String getStrMeal() { return strMeal; }
-    public String getStrCategory() { return strCategory; }
-    public String getStrArea() { return strArea; }
-    public String getStrInstructions() { return strInstructions; }
-    public String getStrMealThumb() { return strMealThumb; }
+    public String getIdMeal() { 
+        return idMeal; 
+    }
+    public String getStrMeal() {
+        return strMeal; 
+    }
+    public String getStrCategory() {
+        return strCategory; 
+    }
+    public String getStrArea() {
+        return strArea; 
+    }
+    public String getStrInstructions() {
+        return strInstructions; 
+    }
+    public String getStrMealThumb() {
+        return strMealThumb; 
+    }
 
     /**
      * Get ingredients with their measures as a clean Map.
