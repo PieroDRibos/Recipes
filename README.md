@@ -1,5 +1,5 @@
 # Recipes
-=======
+======================================================================
 # MealLab
 
 Multi-module Maven project for meal management with JavaFX UI.
