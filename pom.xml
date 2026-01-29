@@ -6,6 +6,7 @@
 
   <groupId>gr.unipi.meallab</groupId>
   <artifactId>meallab</artifactId>
+  <name>Meal Lab Project</name>
   <version>1.0.0</version>
   <packaging>pom</packaging>
 
