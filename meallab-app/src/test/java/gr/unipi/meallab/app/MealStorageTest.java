@@ -22,7 +22,11 @@ public class MealStorageTest {
             Files.walk(testDir)
                     .sorted((a, b) -> b.compareTo(a))
                     .forEach(p -> {
-                        try { Files.deleteIfExists(p); } catch (Exception ignored) {}
+                        try { 
+                        	Files.deleteIfExists(p); 
+                        } catch (Exception ignored) {
+                        	// Nothing
+                        }
                     });
         }
     }

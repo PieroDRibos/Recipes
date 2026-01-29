@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>meallab-app</artifactId>
+    <name>Meal Lab APP</name>
     <packaging>jar</packaging>
 
 	<properties>
